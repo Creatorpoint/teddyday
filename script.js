@@ -1,4 +1,4 @@
-function showLove() {
-  document.getElementById("loveText").innerHTML =
-    "I Love You So Much ❤️🧸";
+function yesClick(){
+  document.getElementById("reply").innerHTML =
+  "Thank you for choosing my heart 💖<br> I promise to keep you smiling always 🌸";
 }
