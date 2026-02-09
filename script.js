@@ -14,7 +14,10 @@ const proposal = document.getElementById("proposal");
 const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
 const result = document.getElementById("result");
-const music = document.getElementById("music");
+
+// 🎵 CREATE AUDIO VIA JS (BEST METHOD)
+const music = new Audio("https://files.catbox.moe/f8c2jr.m4a");
+music.volume = 0.8;
 
 story.innerText = lines[i];
 
@@ -29,25 +32,37 @@ nextBtn.onclick = () => {
 };
 
 yesBtn.onclick = () => {
-  music.volume = 0.7;
-  music.play();   // 🎶 AUTO PLAY ON YES
+  // 🎶 FORCE PLAY
+  music.currentTime = 0;
+  music.play().catch(() => {});
 
+  // 🎉 FORCE POPPER
   confetti({
-    particleCount: 300,
-    spread: 140,
+    particleCount: 400,
+    spread: 160,
+    startVelocity: 45,
     origin: { y: 0.6 }
   });
 
-  result.innerHTML =
-    "🎉 YAYYYY 😍💖<br>" +
-    "Tumne YES bol diya 🥹<br>" +
-    "Ab tum meri ho 💍";
+  setTimeout(() => {
+    confetti({
+      particleCount: 300,
+      spread: 120,
+      origin: { y: 0.4 }
+    });
+  }, 400);
+
+  result.innerHTML = `
+    🌸 YAYYYY 😍💖 🌸<br>
+    Tumne YES bol diya 🥹✨<br>
+    Ab tum meri ho 💍
+  `;
 
   proposal.style.display = "none";
 };
 
 noBtn.onmouseover = () => {
   noBtn.style.position = "absolute";
-  noBtn.style.top = Math.random()*80 + "%";
-  noBtn.style.left = Math.random()*80 + "%";
+  noBtn.style.top = Math.random() * 80 + "%";
+  noBtn.style.left = Math.random() * 80 + "%";
 };
