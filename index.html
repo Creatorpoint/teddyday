@@ -1,20 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Teddy Day Special 🧸</title>
+  <meta charset="UTF-8">
+  <title>Teddy Day Special 💖</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="center pink">
+<body>
 
-  <div class="card">
-    <img src="images/teddy.png" class="teddy">
-    <h1>Happy Teddy Day 💕</h1>
-    <p>
-      Sargam Jii 🥺❤️<br>
-      Aaj main tumhe ek chhoti si kahani sunana chahta hoon…
-    </p>
-    <a href="story.html" class="btn">Start Story ➜</a>
+<audio id="bgMusic" autoplay loop>
+  <source src="song.mp3" type="audio/mpeg">
+</audio>
+
+<div class="music-control" onclick="toggleMusic()">🎵</div>
+
+<div class="card">
+  <h1>Hey Sargam Jii 🧸💖</h1>
+  <p id="story"></p>
+
+  <button id="nextBtn">Next 💕</button>
+
+  <div id="proposal" class="hidden">
+    <h2>Will you be mine? 💍</h2>
+    <div class="btns">
+      <button id="yesBtn">Yes 😍</button>
+      <button id="noBtn">No 🙈</button>
+    </div>
   </div>
 
+  <p id="result"></p>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
