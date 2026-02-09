@@ -1,36 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Baloo+2:wght@500&display=swap" rel="stylesheet">
-  <meta charset="UTF-8">
-  <title>Teddy Day Special 💖</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Sargam Jii ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Baloo+2:wght@500&display=swap" rel="stylesheet">
+
+<!-- Confetti -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:'Baloo 2',cursive;
+}
+
+.card{
+  background:white;
+  width:90%;
+  max-width:420px;
+  padding:30px;
+  border-radius:25px;
+  text-align:center;
+  box-shadow:0 20px 40px rgba(0,0,0,0.2);
+  animation:fadeIn 1.5s;
+}
+
+h1{
+  font-family:'Pacifico',cursive;
+  color:#ff2e63;
+  animation:glow 2s infinite alternate;
+}
+
+p{
+  font-size:18px;
+}
+
+button{
+  border:none;
+  padding:12px 25px;
+  margin:10px;
+  font-size:18px;
+  border-radius:30px;
+  cursor:pointer;
+  font-family:'Baloo 2',cursive;
+  transition:0.3s;
+}
+
+#nextBtn{
+  background:#ff2e63;
+  color:white;
+}
+
+#yesBtn{
+  background:#00c853;
+  color:white;
+}
+
+#noBtn{
+  background:#ff1744;
+  color:white;
+  position:relative;
+}
+
+#result{
+  margin-top:20px;
+  font-size:26px;
+  color:#ff2e63;
+  animation:pop 1s infinite alternate;
+}
+
+.hidden{display:none;}
+
+@keyframes glow{
+  from{text-shadow:0 0 10px #ff2e63;}
+  to{text-shadow:0 0 25px #ff6f91;}
+}
+
+@keyframes pop{
+  from{transform:scale(1);}
+  to{transform:scale(1.1);}
+}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(30px);}
+  to{opacity:1;transform:translateY(0);}
+}
+</style>
 </head>
+
 <body>
 
-<audio id="bgMusic" autoplay loop>
-  <source src="song.mp3" type="audio/mpeg">
-</audio>
-
-<div class="music-control" onclick="toggleMusic()">🎵</div>
-
 <div class="card">
-  <h1>Hey Sargam Jii 🧸💖</h1>
+  <h1>Sargam Jii ❤️</h1>
   <p id="story"></p>
 
-  <button id="nextBtn">Next 💕</button>
+  <button id="nextBtn">Next 💌</button>
 
   <div id="proposal" class="hidden">
-    <h2>Will you be mine? 💍</h2>
-    <div class="btns">
-      <button id="yesBtn">Yes 😍</button>
-      <button id="noBtn">No 🙈</button>
-    </div>
+    <p>Will you be mine forever? 🥺💍</p>
+    <button id="yesBtn">YES 😍</button>
+    <button id="noBtn">NO 🙃</button>
   </div>
 
-  <p id="result"></p>
+  <div id="result"></div>
 </div>
 
-<script src="script.js"></script>
+<audio id="music" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+
+<script>
+const storyText=[
+ "Aaj Teddy Day hai 🧸",
+ "Aur ek secret batana tha 😳",
+ "Tum mili toh life cute ho gayi 🥺",
+ "Main thoda pagal hoon…",
+ "Par tumhare liye bilkul serious hoon ❤️"
+];
+
+let i=0;
+const story=document.getElementById("story");
+const nextBtn=document.getElementById("nextBtn");
+const proposal=document.getElementById("proposal");
+const yesBtn=document.getElementById("yesBtn");
+const noBtn=document.getElementById("noBtn");
+const result=document.getElementById("result");
+const music=document.getElementById("music");
+
+story.innerText=storyText[i];
+
+nextBtn.onclick=()=>{
+ i++;
+ if(i<storyText.length){
+   story.innerText=storyText[i];
+ }else{
+   nextBtn.style.display="none";
+   proposal.classList.remove("hidden");
+ }
+};
+
+yesBtn.onclick=()=>{
+ music.play();
+
+ confetti({
+   particleCount:300,
+   spread:140,
+   origin:{y:0.6}
+ });
+
+ result.innerHTML="🎉 YAYYYY 😍💖<br> Tumne YES bol diya 🥹<br> Ab tum meri ho 💍";
+ proposal.style.display="none";
+};
+
+noBtn.onmouseover=()=>{
+ noBtn.style.position="absolute";
+ noBtn.style.top=Math.random()*80+"%";
+ noBtn.style.left=Math.random()*80+"%";
+};
+</script>
+
 </body>
 </html>
