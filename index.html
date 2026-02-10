@@ -30,6 +30,8 @@ body{
   border-radius:25px;
   text-align:center;
   box-shadow:0 20px 50px rgba(0,0,0,0.3);
+  position:relative;
+  z-index:2;
 }
 
 h1{
@@ -59,7 +61,7 @@ button{
 
 .hidden{display:none}
 
-/* 🎉 RESULT TEXT */
+/* 🎉 RESULT */
 #result{
   margin-top:20px;
   font-family:'Pacifico',cursive;
@@ -67,69 +69,28 @@ button{
   animation:pop 1s ease infinite alternate;
 }
 
-#result .yay{
-  font-size:34px;
-}
-
-#result .line{
-  font-size:22px;
-  margin-top:6px;
-}
+#result .yay{font-size:34px}
+#result .line{font-size:22px;margin-top:6px}
 
 @keyframes pop{
   from{transform:scale(1)}
   to{transform:scale(1.12)}
 }
 
-/* ❤️ HEART OVERLAY */
-#heartOverlay{
+/* 🌸 FLOWER RAIN */
+.flower{
   position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.6);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:999;
+  top:-50px;
+  font-size:28px;
+  animation:fall linear forwards;
+  z-index:1;
 }
 
-.heart{
-  width:180px;
-  height:180px;
-  background:#ff2e63;
-  position:relative;
-  transform:rotate(-45deg) scale(0);
-  animation:heartZoom 1.2s ease forwards;
-}
-
-.heart::before,
-.heart::after{
-  content:"";
-  width:180px;
-  height:180px;
-  background:#ff2e63;
-  border-radius:50%;
-  position:absolute;
-}
-
-.heart::before{top:-90px;left:0}
-.heart::after{left:90px;top:0}
-
-.heart span{
-  position:absolute;
-  inset:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  transform:rotate(45deg);
-  font-family:'Pacifico',cursive;
-  font-size:64px;
-  color:white;
-}
-
-@keyframes heartZoom{
-  0%{transform:rotate(-45deg) scale(0)}
-  60%{transform:rotate(-45deg) scale(1.15)}
-  100%{transform:rotate(-45deg) scale(1)}
+@keyframes fall{
+  to{
+    transform:translateY(110vh) rotate(360deg);
+    opacity:0;
+  }
 }
 </style>
 </head>
@@ -154,10 +115,6 @@ button{
   </div>
 </div>
 
-<div id="heartOverlay">
-  <div class="heart"><span>S</span></div>
-</div>
-
 <audio id="music" src="https://files.catbox.moe/f8c2jr.m4a"></audio>
 
 <script>
@@ -180,7 +137,6 @@ function typeText(text){
     if(i>=text.length) clearInterval(timer);
   },55);
 }
-
 typeText(texts[idx]);
 
 nextBtn.onclick=()=>{
@@ -195,21 +151,31 @@ nextBtn.onclick=()=>{
 
 yesBtn.onclick=()=>{
   music.play();
-
   proposal.style.display="none";
   result.classList.remove("hidden");
 
-  confetti({particleCount:250,spread:160,origin:{y:0.6}});
-
-  setTimeout(()=>{
-    heartOverlay.style.display="flex";
-  },3000);
+  confetti({particleCount:200,spread:160,origin:{y:0.6}});
+  startFlowerRain();
 };
 
 noBtn.onmouseover=()=>{
   noBtn.style.left=Math.random()*70+"%";
   noBtn.style.top=Math.random()*70+"%";
 };
+
+/* 🌸 FLOWER RAIN FUNCTION */
+function startFlowerRain(){
+  const flowers=["🌸","🌼","🌺","💐","🌹"];
+  setInterval(()=>{
+    const f=document.createElement("div");
+    f.className="flower";
+    f.textContent=flowers[Math.floor(Math.random()*flowers.length)];
+    f.style.left=Math.random()*100+"vw";
+    f.style.animationDuration=(3+Math.random()*3)+"s";
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),6000);
+  },300);
+}
 </script>
 
 </body>
