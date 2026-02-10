@@ -32,7 +32,6 @@ body{
   text-align:center;
   box-shadow:0 25px 60px rgba(0,0,0,0.25);
   animation:fadeIn 1.2s ease;
-  z-index:2;
 }
 
 h1{
@@ -81,80 +80,71 @@ button:hover{transform:scale(1.08);}
   margin-top:20px;
   font-size:26px;
   color:#ff2e63;
-  animation:pop 0.8s infinite alternate;
 }
 
 .hidden{display:none;}
 
-/* ❤️ PROFESSIONAL HEART */
-#heartOverlay{
+/* ❤️ PROFESSIONAL HEART OVERLAY */
+.heart-overlay{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.4);
+  background:rgba(0,0,0,0.6);
   display:flex;
   justify-content:center;
   align-items:center;
-  z-index:5;
+  z-index:999;
 }
 
-.heart-shape{
+.heart{
+  width:160px;
+  height:160px;
+  background:linear-gradient(135deg,#ff416c,#ff4b2b);
   position:relative;
-  width:180px;
-  height:160px;
-  background:#ff2e63;
   transform:rotate(-45deg) scale(0);
-  animation:heartZoom 2.5s ease-in-out infinite;
+  animation:heartOnce 1.2s ease forwards;
 }
 
-.heart-shape::before,
-.heart-shape::after{
+.heart::before,
+.heart::after{
   content:"";
-  position:absolute;
-  width:180px;
+  width:160px;
   height:160px;
-  background:#ff2e63;
+  background:inherit;
   border-radius:50%;
+  position:absolute;
 }
 
-.heart-shape::before{
-  top:-90px;
+.heart::before{
+  top:-80px;
   left:0;
 }
 
-.heart-shape::after{
-  left:90px;
+.heart::after{
+  left:80px;
   top:0;
 }
 
 .heart-text{
   position:absolute;
-  transform:rotate(45deg);
-  width:100%;
-  height:100%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%) rotate(45deg);
   color:white;
+  font-size:48px;
   font-family:'Pacifico',cursive;
-  font-size:34px;
-  text-shadow:0 4px 10px rgba(0,0,0,0.4);
+  text-shadow:0 6px 15px rgba(0,0,0,0.4);
 }
 
-@keyframes heartZoom{
+/* 🔥 ONLY ONE TIME ZOOM */
+@keyframes heartOnce{
   0%{transform:rotate(-45deg) scale(0);}
-  40%{transform:rotate(-45deg) scale(1.2);}
-  70%{transform:rotate(-45deg) scale(1);}
-  100%{transform:rotate(-45deg) scale(1.15);}
+  60%{transform:rotate(-45deg) scale(1.15);}
+  100%{transform:rotate(-45deg) scale(1);}
 }
 
 @keyframes glow{
   from{text-shadow:0 0 10px #ff2e63;}
   to{text-shadow:0 0 25px #ff6f91;}
-}
-
-@keyframes pop{
-  from{transform:scale(1);}
-  to{transform:scale(1.12);}
 }
 
 @keyframes fadeIn{
@@ -181,10 +171,10 @@ button:hover{transform:scale(1.08);}
   <div id="result"></div>
 </div>
 
-<!-- ❤️ HEART OVERLAY -->
-<div id="heartOverlay" class="hidden">
-  <div class="heart-shape">
-    <div class="heart-text">P & S</div>
+<!-- ❤️ HEART LAST ME -->
+<div id="heartOverlay" class="heart-overlay hidden">
+  <div class="heart">
+    <div class="heart-text">S</div>
   </div>
 </div>
 
@@ -209,15 +199,16 @@ const result=document.getElementById("result");
 const music=document.getElementById("music");
 const heartOverlay=document.getElementById("heartOverlay");
 
+/* ✅ FIXED TYPING WITH SPACE */
 function typeText(text, cb){
   let i=0;
-  story.innerText="";
+  story.innerHTML="";
   const interval=setInterval(()=>{
-    story.innerText+=text[i];
+    story.innerHTML += text[i]===" " ? "&nbsp;" : text[i];
     i++;
     if(i>=text.length){
       clearInterval(interval);
-      if(cb) setTimeout(cb,800);
+      if(cb) setTimeout(cb,700);
     }
   },60);
 }
@@ -253,20 +244,19 @@ nextBtn.onclick=()=>{
 };
 
 yesBtn.onclick=()=>{
-  music.currentTime=0;
   music.play().catch(()=>{});
 
-  confetti({particleCount:400,spread:180,startVelocity:40,origin:{y:0.6}});
-  setTimeout(()=>confetti({particleCount:300,spread:120,origin:{y:0.4}}),400);
-
+  confetti({particleCount:350,spread:180,origin:{y:0.6}});
   result.innerHTML="🎉 YAYYYY 😍💖<br>Tumne YES bol diya 🥹<br>Ab tum meri ho 💍";
   proposal.style.display="none";
 
-  heartOverlay.classList.remove("hidden");
+  /* ❤️ HEART LAST ME – ONLY ONCE */
+  setTimeout(()=>{
+    heartOverlay.classList.remove("hidden");
+  },2500);
 };
 
 noBtn.onmouseover=()=>{
-  noBtn.style.position="absolute";
   noBtn.style.top=Math.random()*80+"%";
   noBtn.style.left=Math.random()*80+"%";
 };
