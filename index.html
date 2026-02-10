@@ -2,35 +2,34 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Sargam Jii ❤️</title>
+<title>For Sargam ❤️</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Baloo+2:wght@600&family=Fredoka:wght@600&display=swap" rel="stylesheet">
-
-<!-- Confetti -->
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Baloo+2:wght@600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <style>
+*{box-sizing:border-box}
+
 body{
   margin:0;
   height:100vh;
-  background:radial-gradient(circle at top,#ff758c,#ff7eb3,#ffd1dc);
+  background:linear-gradient(135deg,#ff758c,#ff7eb3);
   display:flex;
   justify-content:center;
   align-items:center;
-  font-family:'Fredoka',sans-serif;
+  font-family:'Baloo 2',cursive;
   overflow:hidden;
 }
 
 .card{
-  background:rgba(255,255,255,0.95);
+  background:#fff;
   width:90%;
   max-width:420px;
   padding:30px;
-  border-radius:30px;
+  border-radius:25px;
   text-align:center;
-  box-shadow:0 25px 60px rgba(0,0,0,0.25);
+  box-shadow:0 20px 50px rgba(0,0,0,0.3);
 }
 
 h1{
@@ -39,94 +38,98 @@ h1{
   font-size:34px;
 }
 
-p{
+#story{
   font-size:20px;
-  min-height:60px;
+  min-height:70px;
+  white-space:pre-wrap;
 }
 
 button{
-  border:none;
   padding:14px 30px;
-  margin:12px;
+  border:none;
+  border-radius:35px;
   font-size:18px;
-  border-radius:40px;
+  margin:10px;
   cursor:pointer;
-  font-family:'Baloo 2',cursive;
-  transition:0.3s;
-}
-button:hover{transform:scale(1.08);}
-
-#nextBtn{
-  background:linear-gradient(135deg,#ff2e63,#ff6f91);
-  color:white;
 }
 
-#yesBtn{
-  background:linear-gradient(135deg,#00c853,#69f0ae);
-  color:white;
-}
+#nextBtn{background:#ff2e63;color:white}
+#yesBtn{background:#00c853;color:white}
+#noBtn{background:#ff1744;color:white;position:relative}
 
-#noBtn{
-  background:linear-gradient(135deg,#ff1744,#ff5252);
-  color:white;
-  position:relative;
-}
+.hidden{display:none}
 
-.hidden{display:none;}
-
+/* 🎉 RESULT TEXT */
 #result{
-  font-size:26px;
+  margin-top:20px;
+  font-family:'Pacifico',cursive;
   color:#ff2e63;
+  animation:pop 1s ease infinite alternate;
+}
+
+#result .yay{
+  font-size:34px;
+}
+
+#result .line{
+  font-size:22px;
+  margin-top:6px;
+}
+
+@keyframes pop{
+  from{transform:scale(1)}
+  to{transform:scale(1.12)}
 }
 
 /* ❤️ HEART OVERLAY */
 #heartOverlay{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.55);
+  background:rgba(0,0,0,0.6);
   display:none;
   justify-content:center;
   align-items:center;
-  z-index:9999;
+  z-index:999;
 }
 
 .heart{
-  width:200px;
-  height:200px;
-  background:linear-gradient(135deg,#ff416c,#ff4b2b);
+  width:180px;
+  height:180px;
+  background:#ff2e63;
   position:relative;
   transform:rotate(-45deg) scale(0);
-  animation:heartOnce 1.2s ease forwards;
+  animation:heartZoom 1.2s ease forwards;
 }
 
 .heart::before,
 .heart::after{
   content:"";
-  width:200px;
-  height:200px;
-  background:inherit;
+  width:180px;
+  height:180px;
+  background:#ff2e63;
   border-radius:50%;
   position:absolute;
 }
 
-.heart::before{ top:-100px; left:0; }
-.heart::after{ left:100px; top:0; }
+.heart::before{top:-90px;left:0}
+.heart::after{left:90px;top:0}
 
-.heart-text{
+.heart span{
   position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%) rotate(45deg);
-  color:white;
-  font-size:56px;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  transform:rotate(45deg);
   font-family:'Pacifico',cursive;
-  text-shadow:0 6px 15px rgba(0,0,0,0.4);
+  font-size:64px;
+  color:white;
 }
 
-@keyframes heartOnce{
-  0%{transform:rotate(-45deg) scale(0);}
-  60%{transform:rotate(-45deg) scale(1.15);}
-  100%{transform:rotate(-45deg) scale(1);}
+@keyframes heartZoom{
+  0%{transform:rotate(-45deg) scale(0)}
+  60%{transform:rotate(-45deg) scale(1.15)}
+  100%{transform:rotate(-45deg) scale(1)}
 }
 </style>
 </head>
@@ -135,62 +138,55 @@ button:hover{transform:scale(1.08);}
 
 <div class="card">
   <h1>Sargam Jii ❤️</h1>
-  <p id="story"></p>
+  <div id="story"></div>
 
   <button id="nextBtn">Next 💌</button>
 
   <div id="proposal" class="hidden">
-    <p>Will you be mine forever? 🥺💍</p>
+    <p>Will you be mine forever? 🥺</p>
     <button id="yesBtn">YES 😍</button>
     <button id="noBtn">NO 🙃</button>
   </div>
 
-  <div id="result"></div>
+  <div id="result" class="hidden">
+    <div class="yay">YAYYYY 😍💖</div>
+    <div class="line">Tumne YES bol diya 🥹</div>
+  </div>
 </div>
 
-<!-- HEART -->
 <div id="heartOverlay">
-  <div class="heart">
-    <span class="heart-text">S</span>
-  </div>
+  <div class="heart"><span>S</span></div>
 </div>
 
 <audio id="music" src="https://files.catbox.moe/f8c2jr.m4a"></audio>
 
 <script>
-const scenes=[
+const texts=[
  "Aaj Teddy Day hai 🧸",
- "Ek chota sa secret batana tha 😳",
- "Tum mili toh life cute ho gayi 🥺",
- "Main thoda pagal hoon…",
- "Par tumhare liye bilkul serious hoon ❤️"
+ "Mujhe tumse kuch kehna tha 😳",
+ "Tum meri life ka sabse cute hissa ho",
+ "Main serious hoon… sirf tumhare liye ❤️"
 ];
 
-let i=0;
+let idx=0;
 const story=document.getElementById("story");
-const nextBtn=document.getElementById("nextBtn");
-const proposal=document.getElementById("proposal");
-const yesBtn=document.getElementById("yesBtn");
-const noBtn=document.getElementById("noBtn");
-const result=document.getElementById("result");
-const music=document.getElementById("music");
 
 function typeText(text){
-  let j=0;
-  story.innerText="";
-  const t=setInterval(()=>{
-    story.innerText+=text[j];
-    j++;
-    if(j>=text.length) clearInterval(t);
-  },60);
+  let i=0;
+  story.textContent="";
+  const timer=setInterval(()=>{
+    story.textContent+=text.charAt(i);
+    i++;
+    if(i>=text.length) clearInterval(timer);
+  },55);
 }
 
-typeText(scenes[i]);
+typeText(texts[idx]);
 
 nextBtn.onclick=()=>{
-  i++;
-  if(i<scenes.length){
-    typeText(scenes[i]);
+  idx++;
+  if(idx<texts.length){
+    typeText(texts[idx]);
   }else{
     nextBtn.style.display="none";
     proposal.classList.remove("hidden");
@@ -198,26 +194,21 @@ nextBtn.onclick=()=>{
 };
 
 yesBtn.onclick=()=>{
-  music.play().catch(()=>{});
-
-  confetti({
-    particleCount:400,
-    spread:180,
-    origin:{y:0.6}
-  });
-
-  result.innerHTML="YAYYYY 😍💖<br>Tumne YES bol diya 🥹";
+  music.play();
 
   proposal.style.display="none";
+  result.classList.remove("hidden");
+
+  confetti({particleCount:250,spread:160,origin:{y:0.6}});
 
   setTimeout(()=>{
-    document.getElementById("heartOverlay").style.display="flex";
-  },2000);
+    heartOverlay.style.display="flex";
+  },3000);
 };
 
 noBtn.onmouseover=()=>{
-  noBtn.style.top=Math.random()*80+"%";
-  noBtn.style.left=Math.random()*80+"%";
+  noBtn.style.left=Math.random()*70+"%";
+  noBtn.style.top=Math.random()*70+"%";
 };
 </script>
 
