@@ -5,7 +5,7 @@
 <title>Sargam Jii ❤️</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Google Fonts -->
+<!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Baloo+2:wght@600&family=Fredoka:wght@600&display=swap" rel="stylesheet">
 
 <!-- Confetti -->
@@ -31,15 +31,12 @@ body{
   border-radius:30px;
   text-align:center;
   box-shadow:0 25px 60px rgba(0,0,0,0.25);
-  animation:fadeIn 1.2s ease;
 }
 
 h1{
   font-family:'Pacifico',cursive;
   color:#ff2e63;
   font-size:34px;
-  margin-bottom:10px;
-  animation:glow 2s infinite alternate;
 }
 
 p{
@@ -57,7 +54,6 @@ button{
   font-family:'Baloo 2',cursive;
   transition:0.3s;
 }
-
 button:hover{transform:scale(1.08);}
 
 #nextBtn{
@@ -76,28 +72,27 @@ button:hover{transform:scale(1.08);}
   position:relative;
 }
 
+.hidden{display:none;}
+
 #result{
-  margin-top:20px;
   font-size:26px;
   color:#ff2e63;
 }
 
-.hidden{display:none;}
-
-/* ❤️ PROFESSIONAL HEART OVERLAY */
-.heart-overlay{
+/* ❤️ HEART OVERLAY */
+#heartOverlay{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.6);
-  display:flex;
+  background:rgba(0,0,0,0.55);
+  display:none;
   justify-content:center;
   align-items:center;
-  z-index:999;
+  z-index:9999;
 }
 
 .heart{
-  width:160px;
-  height:160px;
+  width:200px;
+  height:200px;
   background:linear-gradient(135deg,#ff416c,#ff4b2b);
   position:relative;
   transform:rotate(-45deg) scale(0);
@@ -107,22 +102,15 @@ button:hover{transform:scale(1.08);}
 .heart::before,
 .heart::after{
   content:"";
-  width:160px;
-  height:160px;
+  width:200px;
+  height:200px;
   background:inherit;
   border-radius:50%;
   position:absolute;
 }
 
-.heart::before{
-  top:-80px;
-  left:0;
-}
-
-.heart::after{
-  left:80px;
-  top:0;
-}
+.heart::before{ top:-100px; left:0; }
+.heart::after{ left:100px; top:0; }
 
 .heart-text{
   position:absolute;
@@ -130,26 +118,15 @@ button:hover{transform:scale(1.08);}
   left:50%;
   transform:translate(-50%,-50%) rotate(45deg);
   color:white;
-  font-size:48px;
+  font-size:56px;
   font-family:'Pacifico',cursive;
   text-shadow:0 6px 15px rgba(0,0,0,0.4);
 }
 
-/* 🔥 ONLY ONE TIME ZOOM */
 @keyframes heartOnce{
   0%{transform:rotate(-45deg) scale(0);}
   60%{transform:rotate(-45deg) scale(1.15);}
   100%{transform:rotate(-45deg) scale(1);}
-}
-
-@keyframes glow{
-  from{text-shadow:0 0 10px #ff2e63;}
-  to{text-shadow:0 0 25px #ff6f91;}
-}
-
-@keyframes fadeIn{
-  from{opacity:0;transform:translateY(40px);}
-  to{opacity:1;transform:translateY(0);}
 }
 </style>
 </head>
@@ -171,10 +148,10 @@ button:hover{transform:scale(1.08);}
   <div id="result"></div>
 </div>
 
-<!-- ❤️ HEART LAST ME -->
-<div id="heartOverlay" class="heart-overlay hidden">
+<!-- HEART -->
+<div id="heartOverlay">
   <div class="heart">
-    <div class="heart-text">S</div>
+    <span class="heart-text">S</span>
   </div>
 </div>
 
@@ -182,14 +159,14 @@ button:hover{transform:scale(1.08);}
 
 <script>
 const scenes=[
-  {wrong:"Aaj Tedy Day hai 😅", right:"Aaj Teddy Day hai 🧸"},
-  {wrong:"Ek chota sa jhut… 😬", right:"Ek chota sa secret batana tha 😳"},
-  {wrong:"Tum mile toh life funny ho gayi 🤭", right:"Tum mili toh life cute ho gayi 🥺"},
-  {wrong:"Main thoda overacting hoon… 😜", right:"Main thoda pagal hoon…"},
-  {wrong:"Par tum important ho ❤️", right:"Par tumhare liye bilkul serious hoon ❤️"}
+ "Aaj Teddy Day hai 🧸",
+ "Ek chota sa secret batana tha 😳",
+ "Tum mili toh life cute ho gayi 🥺",
+ "Main thoda pagal hoon…",
+ "Par tumhare liye bilkul serious hoon ❤️"
 ];
 
-let index=0;
+let i=0;
 const story=document.getElementById("story");
 const nextBtn=document.getElementById("nextBtn");
 const proposal=document.getElementById("proposal");
@@ -197,46 +174,23 @@ const yesBtn=document.getElementById("yesBtn");
 const noBtn=document.getElementById("noBtn");
 const result=document.getElementById("result");
 const music=document.getElementById("music");
-const heartOverlay=document.getElementById("heartOverlay");
 
-/* ✅ FIXED TYPING WITH SPACE */
-function typeText(text, cb){
-  let i=0;
-  story.innerHTML="";
-  const interval=setInterval(()=>{
-    story.innerHTML += text[i]===" " ? "&nbsp;" : text[i];
-    i++;
-    if(i>=text.length){
-      clearInterval(interval);
-      if(cb) setTimeout(cb,700);
-    }
+function typeText(text){
+  let j=0;
+  story.innerText="";
+  const t=setInterval(()=>{
+    story.innerText+=text[j];
+    j++;
+    if(j>=text.length) clearInterval(t);
   },60);
 }
 
-function eraseText(cb){
-  const interval=setInterval(()=>{
-    story.innerText=story.innerText.slice(0,-1);
-    if(story.innerText.length===0){
-      clearInterval(interval);
-      if(cb) cb();
-    }
-  },40);
-}
-
-function playScene(){
-  typeText(scenes[index].wrong,()=>{
-    eraseText(()=>{
-      typeText(scenes[index].right);
-    });
-  });
-}
-
-playScene();
+typeText(scenes[i]);
 
 nextBtn.onclick=()=>{
-  index++;
-  if(index<scenes.length){
-    playScene();
+  i++;
+  if(i<scenes.length){
+    typeText(scenes[i]);
   }else{
     nextBtn.style.display="none";
     proposal.classList.remove("hidden");
@@ -246,14 +200,19 @@ nextBtn.onclick=()=>{
 yesBtn.onclick=()=>{
   music.play().catch(()=>{});
 
-  confetti({particleCount:350,spread:180,origin:{y:0.6}});
-  result.innerHTML="🎉 YAYYYY 😍💖<br>Tumne YES bol diya 🥹<br>Ab tum meri ho 💍";
+  confetti({
+    particleCount:400,
+    spread:180,
+    origin:{y:0.6}
+  });
+
+  result.innerHTML="YAYYYY 😍💖<br>Tumne YES bol diya 🥹";
+
   proposal.style.display="none";
 
-  /* ❤️ HEART LAST ME – ONLY ONCE */
   setTimeout(()=>{
-    heartOverlay.classList.remove("hidden");
-  },2500);
+    document.getElementById("heartOverlay").style.display="flex";
+  },2000);
 };
 
 noBtn.onmouseover=()=>{
